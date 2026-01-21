@@ -2,7 +2,7 @@
   "name": "pix-senior-challenge",
   "version": "2.0.0",
   "scripts": {
-    "dev": "node src/index.js",
+    "dev": "node --watch --env-file .env.example src/index.js",
     "test": "jest"
   },
   "dependencies": {
