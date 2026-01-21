@@ -123,14 +123,15 @@ A API disponibilizada por default no arquivo .env "https://www.bcb.gov.br/api/pi
 
 ## Solução
 
-Com o intúito de mitigar possíveis erros, um tratamento de entrada foi adicionado para o parâmetro ":ispb" na rota "/pix/participants/:ispb", validando para uma string contendo somente números com tamanho de 8 caracteres. Para resultados acertívos, foi utilizado Redis como cache para armazenar esse resultado da busca do ISPB por 1 dia, casos de erro ou não encontrados não são armazenados.
+Com o intúito de mitigar possíveis erros, um tratamento de entrada foi adicionado para o parâmetro ":ispb" na rota "/pix/participants/:ispb", validando para uma string contendo somente números com tamanho de 8 caracteres. Para resultados acertívos, foi utilizado Redis como cache para armazenar esse resultado da busca do ISPB por 1 dia, casos de erro ou não encontrados não são armazenados. Buscando melhorar a visibilidade da aplicação, a library "pino" foi utilizada.
 
 ## Decisões técnicas
 
-Para maior facilidade de entender o código, separei os arquivos em uma estrutura contendo "handlers", que são responsáveis pelos tratamentos de forma genérica no sistema. A "lib", contém os serviços terceiros utilizados, como o cache. Na pasta "services", estão os serviços relacionados a funcionalidade do sistema. O arquivo index.js ficou responsável pela inicialização e definição de rotas da aplicação.
+Para maior facilidade de entender o código, separei os arquivos em uma estrutura contendo "handlers", que são responsáveis pelos tratamentos de forma genérica no sistema. A "lib", contém os serviços terceiros utilizados, como o cache. Na pasta "services", estão os serviços relacionados a funcionalidade do sistema. O arquivo index.js ficou responsável pela inicialização e definição de rotas da aplicação. A request da API externa possui um timeout de 5 segundos, tempo mais que suficiente para uma resposta padrão, otimizando a experiência do usuário.
 
 ## North Star
 
 Deixo essa seção como sugestão para futuras melhorias:
   - Criação de arquivo de configuração e rotas separado, se a aplicação crescer, pode ser interessante desacoplar essas funcionalidades do arquivo index.js
   - Transcrever o código em TypeScript, traria vários benefícios, como por exemplo, prevenção de erros antecipadamente e maior facilidade de trabalho em equipe.
+  - Possibilidade de utilizar os erros gerados em um serviço externo como Sentry ou Grafana, gerando alertas automáticos para aumentar ainda mais a visibilidade do sistema.
