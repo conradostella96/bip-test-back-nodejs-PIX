@@ -12,19 +12,16 @@ export const participants = async (req, res) => {
 
   const cacheKey = `pix:participant:${ispb}`;
   const cacheData = await getCache(cacheKey);
-
   if (cacheData) {
     return res.json(JSON.parse(cacheData));
   }
 
   const participantsData = await fetchParticipants();
-
   if (!participantsData) {
     return res.status(503).json({ error: 'Service unavailable' });
   }
 
   const participant = participantsData.find(p => p.ispb === ispb);
-
   if (!participant) {
     return res.status(404).json({ error: 'Participant not found' });
   }

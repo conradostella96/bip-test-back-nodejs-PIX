@@ -8,6 +8,12 @@ const redis = new IORedis({
     maxRetriesPerRequest: 0,
     lazyConnect: true,
 });
+
+redis.on("error", (error) => {
+    captureException(error);
+    redis.disconnect();
+});
+
 export const saveCache = async (key, value, ttl) => {
     try {
         await redis.set(key, value, "EX", ttl);
